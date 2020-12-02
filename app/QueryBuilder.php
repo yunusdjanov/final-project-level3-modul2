@@ -11,8 +11,8 @@ class QueryBuilder{
     private $pdo;
     private $queryFactory;
 
-    public function __construct(){
-        $this->pdo = new PDO("mysql:host=localhost;dbname=app3;", "root", "");
+    public function __construct(PDO $pdo){
+        $this->pdo = $pdo;
         $this->queryFactory = new QueryFactory('mysql');
     }
 

@@ -10,25 +10,25 @@ use Delight\Auth\Auth;
 
 
 class HomeController {
-    private $flash, $db, $auth, $templates;
+    private $flash, $qb, $auth, $templates;
     private $selector, $token;
 
-    public function __construct(QueryBuilder $qb, Flash $flashmessage, Engine $engine){
+    public function __construct(QueryBuilder $qb, Flash $flashmessage, Engine $engine, Auth $auth){
         $this->flash = $flashmessage;
-        $this->db = $qb;
+        $this->qb = $qb;
         $this->templates = $engine;
         $db = new PDO("mysql:host=localhost;dbname=app3;", "root", "");
-        $this->auth = new \Delight\Auth\Auth($db);
+        $this->auth = $auth;
     }
 
     public function index() {
-        $users = $this->db->getAll('users');
+        $users = $this->qb->getAll('users');
         echo $this->templates->render('homepage', ['users' => $users, 'auth' => $this->auth]);
     }
 
     public function about() {
         $id = $_GET['id'];
-        $users = $this->db->selectOne($id, 'users');
+        $users = $this->qb->selectOne($id, 'users');
         echo $this->templates->render('about', ['users' => $users, 'auth' => $this->auth]);
 
     }
@@ -95,7 +95,7 @@ class HomeController {
     }
 
     public function admin(){
-        $users = $this->db->getAll('users');
+        $users = $this->qb->getAll('users');
         echo $this->templates->render('admin', ['users' => $users, 'auth' => $this->auth]);
     }
 
@@ -144,7 +144,7 @@ class HomeController {
            if ($this->auth->hasRole(1)){
                if (!empty($_GET)){
                $id = $_GET['id'];
-               $users = $this->db->selectOne($id, 'users');
+               $users = $this->qb->selectOne($id, 'users');
                echo $this->templates->render('userprofile', ['users' => $users, 'auth' => $this->auth]);
                }
            }
@@ -177,11 +177,11 @@ class HomeController {
            if ($this->auth->hasRole(1)) {
                if (!empty($_GET)) {
                    $id = $_GET['id'];
-                   $users = $this->db->selectOne($id, 'users');
+                   $users = $this->qb->selectOne($id, 'users');
                    echo $this->templates->render('changeuser', ['users' => $users, 'auth' => $this->auth]);
                }
                if (!empty($_POST)){
-                   $this->db->update([
+                   $this->qb->update([
                        'username' => $_POST['name']
                    ], $id, 'users');
                    header('Location: /admin');
@@ -196,7 +196,7 @@ class HomeController {
     public function profile(){
         if ($this->auth->isLoggedIn()){
             $id = $this->auth->id();
-            $users = $this->db->selectOne($id, 'users');
+            $users = $this->qb->selectOne($id, 'users');
             echo $this->templates->render('profile', ['users' => $users, 'auth' => $this->auth, 'flash' => $this->flash]);
         }else{
             header('Location:/');
@@ -208,7 +208,7 @@ class HomeController {
         if ($this->auth->isLoggedIn()){
             $id = $this->auth->id();
             $data = $_POST['name'];
-            $this->db->update([
+            $this->qb->update([
                 'username' => $data
             ], $id, 'users');
             header('Location: /profile');

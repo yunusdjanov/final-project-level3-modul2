@@ -15,7 +15,7 @@ $containerBuilder->addDefinitions([
         $driver = "mysql";
         $host = "localhost";
         $dbname = "app3";
-        $uname = "users";
+        $uname = "root";
         $pwd = "";
 
         return new PDO("$driver:host=$host;dbname=$dbname", $uname, $pwd);
