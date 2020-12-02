@@ -1,7 +1,11 @@
 <?php
 if( !session_id() ) @session_start();
-
 require "../vendor/autoload.php";
+
+use DI\ContainerBuilder;
+
+$containerBuilder = new ContainerBuilder;
+$container = $containerBuilder->build();
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     //Views
@@ -74,9 +78,6 @@ switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
-        $controller = new $handler[0];
-
-        call_user_func([$controller, $handler[1]], $vars);
-        // ... call $handler with $vars
+        $container->call($routeInfo[1],$routeInfo[2]);
         break;
 }

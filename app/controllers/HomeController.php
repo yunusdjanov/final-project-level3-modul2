@@ -13,27 +13,27 @@ class HomeController {
     private $flash, $db, $auth, $templates;
     private $selector, $token;
 
-    public function __construct(){
-        $this->flash = new Flash();
-        $this->db = new QueryBuilder();
+    public function __construct(QueryBuilder $qb, Flash $flashmessage){
+        $this->flash = $flashmessage;
+        $this->db = $qb;
         $this->templates = new Engine('../app/views');
         $db = new PDO("mysql:host=localhost;dbname=app3;", "root", "");
         $this->auth = new \Delight\Auth\Auth($db);
     }
 
-    public function index($vars) {
+    public function index() {
         $users = $this->db->getAll('users');
         echo $this->templates->render('homepage', ['users' => $users, 'auth' => $this->auth]);
     }
 
-    public function about($vars) {
+    public function about() {
         $id = $_GET['id'];
         $users = $this->db->selectOne($id, 'users');
         echo $this->templates->render('about', ['users' => $users, 'auth' => $this->auth]);
 
     }
 
-    public function register($vars) {
+    public function register() {
         if (!empty($_POST)) {
             if($_POST['password'] <> $_POST['password_again']) {
                 $this->flash->error('Password mismatch');
@@ -60,7 +60,7 @@ class HomeController {
         echo $this->templates->render('register', ['auth' => $this->auth, 'flash' => $this->flash]);
     }
 
-    public function login($vars) {
+    public function login() {
         if (!empty($_POST)) {
             try {
                 $this->auth->login($_POST['email'], $_POST['password']);
@@ -89,17 +89,17 @@ class HomeController {
 
     }
 
-    public function logout($vars){
+    public function logout(){
         $this->auth->logOut();
         header('Location: /');
     }
 
-    public function admin($vars){
+    public function admin(){
         $users = $this->db->getAll('users');
         echo $this->templates->render('admin', ['users' => $users, 'auth' => $this->auth]);
     }
 
-    public function assignrole($vars){
+    public function assignrole(){
         if ($this->auth->isLoggedIn()){
             if ($this->auth->hasRole(1)){
                 $id = $_GET['id'];
@@ -119,7 +119,7 @@ class HomeController {
 
     }
 
-    public function takeawayrole($vars){
+    public function takeawayrole(){
       if ($this->auth->isLoggedIn()){
           if ($this->auth->hasRole(1)){
               if (!empty($_GET)){
@@ -139,9 +139,7 @@ class HomeController {
 
     }
 
-
-
-    public function userprofile($vars){
+    public function userprofile(){
        if ($this->auth->isLoggedIn()){
            if ($this->auth->hasRole(1)){
                if (!empty($_GET)){
@@ -155,7 +153,7 @@ class HomeController {
        }
     }
 
-    public function deleteuser($vars){
+    public function deleteuser(){
         if ($this->auth->isLoggedIn()){
            if ($this->auth->hasRole(1)){
                if (!empty($_GET)){
@@ -174,7 +172,7 @@ class HomeController {
         }
     }
 
-    public function changeuser($vars){
+    public function changeuser(){
        if ($this->auth->isLoggedIn()) {
            if ($this->auth->hasRole(1)) {
                if (!empty($_GET)) {
@@ -195,7 +193,7 @@ class HomeController {
 
     }
 
-    public function profile($vars){
+    public function profile(){
         if ($this->auth->isLoggedIn()){
             $id = $this->auth->id();
             $users = $this->db->selectOne($id, 'users');
@@ -206,7 +204,7 @@ class HomeController {
 
     }
 
-    public function updateprofile($vars){
+    public function updateprofile(){
         if ($this->auth->isLoggedIn()){
             $id = $this->auth->id();
             $data = $_POST['name'];
@@ -219,7 +217,7 @@ class HomeController {
         }
     }
 
-    public function changepassword($vars){
+    public function changepassword(){
        if ($this->auth->isLoggedIn()){
            echo $this->templates->render('changepassword', ['auth' => $this->auth]);
        }else{
@@ -227,7 +225,7 @@ class HomeController {
        }
     }
 
-    public function changepasswordrequest($vars){
+    public function changepasswordrequest(){
        if ($this->auth->isLoggedIn()){
            if ($_POST['oldPassword'] <> $_POST['newPassword']){
                try {

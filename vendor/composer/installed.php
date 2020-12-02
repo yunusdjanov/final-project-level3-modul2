@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '593fadc19722efa6aad39c1672a963a34ee630f0',
+    'reference' => 'e34b75a2781c14985c4e6821e86321a0756c5488',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '593fadc19722efa6aad39c1672a963a34ee630f0',
+      'reference' => 'e34b75a2781c14985c4e6821e86321a0756c5488',
     ),
     'aura/sqlquery' => 
     array (
@@ -155,6 +155,42 @@
       ),
       'reference' => '181d480e08d9476e61381e04a71b34dc0432e812',
     ),
+    'opis/closure' => 
+    array (
+      'pretty_version' => '3.6.1',
+      'version' => '3.6.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '943b5d70cc5ae7483f6aff6ff43d7e34592ca0f5',
+    ),
+    'php-di/invoker' => 
+    array (
+      'pretty_version' => '2.2.0',
+      'version' => '2.2.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e08a7c87068daeaeef464b95d81643ea530bc535',
+    ),
+    'php-di/php-di' => 
+    array (
+      'pretty_version' => '6.3.0',
+      'version' => '6.3.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '955cacea6b0beaba07e8c11b8367f5b3d5abe89f',
+    ),
+    'php-di/phpdoc-reader' => 
+    array (
+      'pretty_version' => '2.2.1',
+      'version' => '2.2.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '66daff34cbd2627740ffec9469ffbac9f8c8185c',
+    ),
     'psr/container' => 
     array (
       'pretty_version' => '1.0.0',
@@ -163,6 +199,13 @@
       array (
       ),
       'reference' => 'b7ce3b176482dbbc1245ebf52b181af44c2cf55f',
+    ),
+    'psr/container-implementation' => 
+    array (
+      'provided' => 
+      array (
+        0 => '^1.0',
+      ),
     ),
     'psr/simple-cache' => 
     array (
