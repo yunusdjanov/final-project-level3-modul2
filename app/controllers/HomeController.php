@@ -13,10 +13,10 @@ class HomeController {
     private $flash, $db, $auth, $templates;
     private $selector, $token;
 
-    public function __construct(QueryBuilder $qb, Flash $flashmessage){
+    public function __construct(QueryBuilder $qb, Flash $flashmessage, Engine $engine){
         $this->flash = $flashmessage;
         $this->db = $qb;
-        $this->templates = new Engine('../app/views');
+        $this->templates = $engine;
         $db = new PDO("mysql:host=localhost;dbname=app3;", "root", "");
         $this->auth = new \Delight\Auth\Auth($db);
     }

@@ -3,9 +3,30 @@ if( !session_id() ) @session_start();
 require "../vendor/autoload.php";
 
 use DI\ContainerBuilder;
+use Delight\Auth\Auth;
+use League\Plates\Engine;
 
 $containerBuilder = new ContainerBuilder;
+$containerBuilder->addDefinitions([
+    Engine::class => function() {
+        return new Engine('../app/views');
+    },
+    PDO::class => function() {
+        $driver = "mysql";
+        $host = "localhost";
+        $dbname = "app3";
+        $uname = "users";
+        $pwd = "";
+
+        return new PDO("$driver:host=$host;dbname=$dbname", $uname, $pwd);
+    },
+
+    Auth::class => function($container) {
+        return new Auth($container->get('PDO'));
+    }
+]);
 $container = $containerBuilder->build();
+
 
 $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) {
     //Views
